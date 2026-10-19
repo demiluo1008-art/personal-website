@@ -27,6 +27,27 @@
   --space: clamp(1.25rem, 4vw, 3.5rem);
 }
 
+/* Dark Theme Design System (Warm Luxury Obsidian & Terracotta) */
+:root[data-theme="dark"] {
+  --bg-ambient: #14110E;
+  --shell-bg: #1B1714;
+  --terracotta: #E27B5E;
+  --terracotta-dark: #C96145;
+  --terracotta-light: #2D211A;
+  --terracotta-muted: #8E5443;
+  --sand: #251E1A;
+  --sand-dark: #352B24;
+  --ink: #F7EEE7;
+  --ink-soft: #DED3CB;
+  --muted: #A89B92;
+  --line: #372D26;
+  --line-light: #2A221C;
+  --white: #221B17;
+  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
 /* Reset & Base */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -51,6 +72,16 @@ body {
   line-height: 1.65;
   min-height: 100vh;
   padding: clamp(1rem, 2.5vw, 2.5rem) 1rem;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at 10% 15%, rgba(45, 33, 26, 0.95), transparent 30rem),
+    radial-gradient(circle at 90% 40%, rgba(226, 123, 94, 0.12), transparent 36rem),
+    radial-gradient(circle at 20% 80%, rgba(184, 99, 70, 0.08), transparent 32rem),
+    linear-gradient(155deg, #171311 0%, #110E0C 50%, #0D0A08 100%);
+  color: var(--ink);
 }
 
 img {
@@ -127,6 +158,10 @@ button {
   border-color: var(--line);
 }
 
+[data-theme="dark"] .site-header {
+  background: rgba(27, 23, 20, 0.92);
+}
+
 .nav-shell {
   display: flex;
   align-items: center;
@@ -167,11 +202,71 @@ button {
   color: var(--terracotta);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--ink);
+  padding: 0;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background: var(--sand);
+  border-color: var(--terracotta);
+  color: var(--terracotta);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+}
+
+.theme-toggle .sun-icon {
+  position: absolute;
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.4);
+}
+
+.theme-toggle .moon-icon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+[data-theme="dark"] .theme-toggle .sun-icon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+[data-theme="dark"] .theme-toggle .moon-icon {
+  position: absolute;
+  opacity: 0;
+  transform: rotate(90deg) scale(0.4);
+}
+
 .header-social {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-left: 1rem;
 }
 
 .social-icon-btn {
@@ -1095,6 +1190,129 @@ dialog li {
     opacity: 1;
     transform: translate(-50%, 0);
   }
+}
+
+/* ==========================================================================
+   Dark Theme Component Adaptations
+   ========================================================================== */
+
+[data-theme="dark"] .site-shell {
+  border-color: rgba(65, 52, 44, 0.65);
+}
+
+[data-theme="dark"] .about {
+  background: linear-gradient(180deg, var(--shell-bg) 0%, rgba(45, 33, 26, 0.45) 100%);
+}
+
+[data-theme="dark"] .skills-section {
+  background: linear-gradient(180deg, var(--shell-bg) 0%, rgba(45, 33, 26, 0.35) 100%);
+}
+
+[data-theme="dark"] .process-section {
+  background: linear-gradient(180deg, rgba(45, 33, 26, 0.35) 0%, var(--shell-bg) 100%);
+}
+
+[data-theme="dark"] .hero-badge {
+  background: rgba(34, 27, 23, 0.95);
+  border-color: var(--line);
+}
+
+[data-theme="dark"] .project-media {
+  background: rgba(45, 33, 26, 0.7);
+}
+
+[data-theme="dark"] .project-card.featured .project-media {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="dark"] .methodology-pill {
+  background: rgba(226, 123, 94, 0.12);
+}
+
+[data-theme="dark"] .skill-badge-list.learning-list li {
+  background: var(--sand);
+  color: var(--muted);
+  border-color: var(--line);
+}
+
+[data-theme="dark"] .contact-card {
+  background: rgba(30, 24, 20, 0.98);
+  border: 1px solid var(--line);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .contact-link-item {
+  background: var(--sand);
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+[data-theme="dark"] .contact-link-item:hover {
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+  color: #FFFFFF;
+}
+
+[data-theme="dark"] dialog {
+  background: var(--shell-bg);
+  border-color: var(--line);
+  color: var(--ink);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65);
+}
+
+[data-theme="dark"] dialog::backdrop {
+  background: rgba(10, 8, 7, 0.75);
+}
+
+[data-theme="dark"] .cookie-banner {
+  background: rgba(28, 23, 20, 0.96);
+  border-color: rgba(85, 68, 58, 0.85);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+  color: var(--ink);
+}
+
+[data-theme="dark"] .cookie-actions .button.secondary {
+  background: var(--white);
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+[data-theme="dark"] .cookie-actions .button.secondary:hover {
+  border-color: var(--terracotta);
+  color: var(--terracotta);
+}
+
+[data-theme="dark"] .menu-toggle span:not(.sr-only) {
+  background: var(--ink);
+}
+
+[data-theme="dark"] .button.secondary {
+  background: var(--white);
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+[data-theme="dark"] .social-icon-btn {
+  background: var(--white);
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+[data-theme="dark"] .social-icon-btn:hover {
+  background: var(--terracotta);
+  color: #FFFFFF;
+  border-color: var(--terracotta);
+}
+
+[data-theme="dark"] .dialog-close {
+  background: var(--white);
+  color: var(--muted);
+  border-color: var(--line);
+}
+
+[data-theme="dark"] .dialog-close:hover {
+  background: var(--terracotta);
+  color: #FFFFFF;
 }
 
 /* ==========================================================================

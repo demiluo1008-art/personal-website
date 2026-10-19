@@ -42,8 +42,7 @@ const cases = {
       'Recommendation: Local SEO, producer-focused storytelling and seasonal content campaigns.',
       'Learning: I learned to separate assumptions from evidence and to document which recommendations were supported by research.'
     ]
-  }
-},
+  },
   hotel: {
     label: 'Hospitality & Leadership',
     title: 'Hotel Operations & Customer Relations',

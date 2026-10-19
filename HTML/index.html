@@ -29,6 +29,62 @@
     <meta property="og:locale" content="en_US">
     <meta property="og:site_name" content="Shihui Luo Portfolio">
 
+    <!-- Theme Initialization (prevents flash of wrong theme) -->
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('shihui_theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = stored ? stored : (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+                var meta = document.querySelector('meta[name="theme-color"]');
+                if (meta) meta.setAttribute('content', theme === 'dark' ? '#1B1714' : '#B86346');
+            } catch (e) { }
+        })();
+    </script>
+
+    <!-- Google Consent Mode v2 (Must be defined BEFORE gtag.js) -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+
+        (function () {
+            var consentKey = 'shihui_cookie_consent_v1';
+            var saved = null;
+            try { saved = localStorage.getItem(consentKey); } catch (e) { }
+            if (!saved) {
+                var m = document.cookie.match(new RegExp('(?:^|; )' + consentKey + '=([^;]*)'));
+                if (m) saved = decodeURIComponent(m[1]);
+            }
+            var isGranted = (saved === 'accepted');
+
+            // Default consent state: denied until explicitly accepted (GDPR compliant)
+            gtag('consent', 'default', {
+                'analytics_storage': isGranted ? 'granted' : 'denied',
+                'ad_storage': isGranted ? 'granted' : 'denied',
+                'ad_user_data': isGranted ? 'granted' : 'denied',
+                'ad_personalization': isGranted ? 'granted' : 'denied',
+                'wait_for_update': 500
+            });
+        })();
+    </script>
+
+    <!-- Google Analytics 4 (GA4) -->
+    <!-- Set your GA4 Measurement ID here (e.g., G-XXXXXXXXXX) -->
+    <script>
+        window.GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // Replace with your GA4 Measurement ID
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX" id="ga4-gtag-script"></script>
+    <script>
+        gtag('js', new Date());
+        if (window.GA_MEASUREMENT_ID && window.GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX') {
+            gtag('config', window.GA_MEASUREMENT_ID, {
+                'anonymize_ip': true,
+                'cookie_flags': 'SameSite=Lax;Secure'
+            });
+        }
+    </script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -109,14 +165,6 @@
             <div class="nav-shell">
                 <a class="brand" href="#home" aria-label="Shihui Luo, home">SHIHUI LUO<span>.</span></a>
 
-                <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false"
-                    aria-controls="site-nav">
-                    <span class="sr-only">Toggle navigation menu</span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-
                 <nav id="site-nav" class="site-nav" aria-label="Main navigation">
                     <a href="#about">About</a>
                     <a href="#projects">Projects</a>
@@ -125,10 +173,45 @@
                     <a href="#contact">Contact</a>
                 </nav>
 
-                <div class="header-social">
-                    <a class="social-icon-btn" href="https://www.linkedin.com/in/shihui-luo-505298428/" target="_blank"
-                        rel="noopener noreferrer" aria-label="Shihui Luo on LinkedIn">in</a>
-                    <a class="social-icon-btn" href="mailto:demiluo1008@gmail.com" aria-label="Email Shihui Luo">✉</a>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark or light theme"
+                        title="Toggle theme">
+                        <span class="theme-toggle-icon sun-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </span>
+                        <span class="theme-toggle-icon moon-icon" aria-hidden="true">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                        </span>
+                    </button>
+
+                    <div class="header-social">
+                        <a class="social-icon-btn" href="https://www.linkedin.com/in/shihui-luo-505298428/"
+                            target="_blank" rel="noopener noreferrer" aria-label="Shihui Luo on LinkedIn">in</a>
+                        <a class="social-icon-btn" href="mailto:demiluo1008@gmail.com"
+                            aria-label="Email Shihui Luo">✉</a>
+                    </div>
+
+                    <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false"
+                        aria-controls="site-nav">
+                        <span class="sr-only">Toggle navigation menu</span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
                 </div>
             </div>
         </header>
@@ -485,24 +568,25 @@
         <ul id="dialog-points"></ul>
     </dialog>
 
-    <!-- Cookie Banner (GDPR Compliant & Responsive) -->
+    <!-- Cookie Banner (GDPR Compliant & GA4 Ready) -->
     <div class="cookie-banner" id="cookie-banner" role="dialog" aria-labelledby="cookie-title"
         aria-describedby="cookie-desc">
         <div class="cookie-content">
             <span class="cookie-icon" aria-hidden="true">🍪</span>
             <div class="cookie-text">
-                <strong id="cookie-title">Cookie Preferences</strong>
-                <p id="cookie-desc">We use cookies to analyze site traffic and improve your browsing experience. Choose
-                    your preference below.</p>
+                <strong id="cookie-title">Cookie &amp; Analytics Preferences</strong>
+                <p id="cookie-desc">We use analytics cookies (Google Analytics 4) to understand how visitors interact
+                    with our portfolio and improve user experience. You can choose to accept or decline analytics
+                    cookies.</p>
             </div>
         </div>
         <div class="cookie-actions">
             <button class="button secondary" id="decline-cookies" type="button">
-                Reject analytics
+                Decline Analytics
             </button>
 
             <button class="button primary" id="accept-cookies" type="button">
-                Accept analytics
+                Accept Analytics
             </button>
         </div>
     </div>
