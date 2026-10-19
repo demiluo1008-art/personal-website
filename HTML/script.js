@@ -27,3 +27,30 @@ document.querySelectorAll('[data-case]').forEach(button=>button.addEventListener
 document.querySelector('.dialog-close')?.addEventListener('click',()=>dialog.close());
 dialog?.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});
 dialog?.addEventListener('close',()=>dialogTrigger?.focus());
+document.addEventListener('DOMContentLoaded', () => {
+  const banner = document.getElementById('cookie-banner');
+  const acceptBtn = document.getElementById('accept-cookies');
+  if (!banner || !acceptBtn) return;
+
+  const hasConsent = () => {
+    try {
+      if (localStorage.getItem('cookieConsent') === 'accepted') return true;
+    } catch (e) {}
+    const match = document.cookie.match(/(^| )cookieConsent=([^;]+)/);
+    return match && match[2] === 'accepted';
+  };
+
+  if (hasConsent()) {
+    banner.classList.add('hidden');
+  }
+
+  acceptBtn.addEventListener('click', () => {
+    try {
+      localStorage.setItem('cookieConsent', 'accepted');
+    } catch (e) {}
+    const expiry = new Date();
+    expiry.setFullYear(expiry.getFullYear() + 1);
+    document.cookie = `cookieConsent=accepted; expires=${expiry.toUTCString()}; path=/; SameSite=Lax`;
+    banner.classList.add('hidden');
+  });
+});

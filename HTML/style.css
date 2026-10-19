@@ -55,6 +55,10 @@ dialog{border-radius:16px;border:1px solid var(--line)}
 .quick-facts dd{font-size:.62rem}.journey-tabs button{font-size:.66rem}.button{font-size:.6rem;letter-spacing:.04em}
 
 .button,.text-button,.journey-tabs button,.dialog-close,.menu-toggle{transition:transform .18s ease,box-shadow .18s ease,background-color .18s ease,border-color .18s ease,color .18s ease}
+.cookie-banner{position:fixed;bottom:0;left:0;right:0;width:100%;background:var(--surface);color:var(--ink);padding:1rem var(--space);box-shadow:0 -4px 20px rgba(0,0,0,0.12);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;z-index:1000;border-top:1px solid var(--line)}
+.cookie-banner.hidden{display:none}
+.cookie-banner p{margin:0;font-size:.85rem;color:var(--muted);max-width:65ch}
+.cookie-banner a{color:var(--clay);text-decoration:underline}
 .button{min-height:42px;border-width:1.5px;font-weight:700}.button.primary{box-shadow:0 7px 16px rgb(137 55 35/.28)}.button.secondary{background:#fffaf0;border-color:var(--clay);color:var(--clay);box-shadow:0 5px 12px rgb(137 55 35/.12)}
 .button:hover,.button:focus-visible{transform:translateY(-2px);box-shadow:0 10px 20px rgb(137 55 35/.25)}
 .journey-tabs button{border:1px solid rgb(255 255 255/.32);border-radius:999px;margin:.2rem;padding:.55rem .85rem}.journey-tabs button.active{background:#fffaf0;color:var(--clay);border-color:#fffaf0;box-shadow:0 5px 12px rgb(75 28 18/.22)}.journey-tabs button:hover:not(.active){background:rgb(255 255 255/.13);color:white}

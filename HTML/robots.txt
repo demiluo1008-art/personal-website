@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap URL (Replace with your actual domain when published)
+Sitemap: https://shihuiluo.com/sitemap.xml
