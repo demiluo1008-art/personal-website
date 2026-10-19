@@ -18,9 +18,43 @@ tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>selectStage(tab));ta
 function selectStage(tab){const data=journey[tab.dataset.stage];if(!data)return;tabs.forEach(item=>{const active=item===tab;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));item.tabIndex=active?0:-1;});document.querySelector('#journey-label').textContent=data.label;document.querySelector('#journey-title').textContent=data.title;document.querySelector('#journey-text').textContent=data.text;journeyPanel.setAttribute('aria-labelledby',tab.id);journeyImage.src=data.image;journeyImage.alt=data.alt;}
 
 const cases={
-  yoga:{label:'Yoga instruction',title:'Mindful Flow',overview:'A flexible class architecture combining Vinyasa, grounding Hatha and breathwork for modern students and teams.',points:['Breath-synchronised sequences for varied experience levels','Posture resets designed for desk-based work','Accessible alignment with an emphasis on sustainable practice']},
-  community:{label:'Digital marketing',title:'8K+ Organic Community',overview:'An organic audience-growth project built through authentic wellness content and consistent community engagement.',points:['More than 8,000 followers grown without paid acquisition','A recognisable, warm visual and editorial voice','Practical content learning now supported by IHM marketing studies']},
-  brand:{label:'Brand and web',title:'Personal Brand Platform',overview:'A responsive editorial website bringing yoga experience and emerging marketing expertise into one clear professional story.',points:['Semantic, accessible and mobile-first structure','Focused journeys for collaborators and LIA opportunities','A visual system inspired by mindful movement and Scandinavian restraint']}
+  yoga:{
+    label:'Yoga & Personal Branding',
+    title:'Mindful Brand & Organic Growth',
+    overview:'10 years of yoga practice shaped into certified teaching (200h+), international workshops across 4 countries (Sweden, Netherlands, Spain, Portugal), and an engaged organic community of 8,000+ followers built through authentic storytelling.',
+    points:[
+      'Certified yoga instructor (200h+) leading dynamic flow, alignment, and breathwork',
+      'Organic online community of 8,000+ followers built through consistent visual content and reels',
+      'International teaching and community events across Sweden, Netherlands, Spain, and Portugal',
+      'Personal branding combining mindful wellness with Scandinavian aesthetics and community trust'
+    ]
+  },
+  marketing:{
+    label:'IHM Group Project · Digital Marketing',
+    title:'Sjuhärads Skafferi: Growth Strategy',
+    overview:'An academic group project at IHM Business School developing a comprehensive digital marketing strategy for Sjuhärads Skafferi, analyzing market challenges, audience personas, and multi-channel acquisition funnels.',
+    points:[
+      'Challenge: Increasing regional visibility and e-commerce engagement for local food producers',
+      'SWOT Analysis: Leveraging artisanal quality and regional authenticity against limited digital awareness',
+      'PESTEL Analysis: Capitalizing on sustainability trends, local sourcing preferences, and digital purchasing behavior',
+      'Marketing Objectives: Drive local brand discovery, strengthen social engagement, and establish conversion paths',
+      'Proposed Strategy: Content storytelling around local farmers, targeted local SEO, and seasonal campaign calendars',
+      'Learning Outcomes: Hands-on experience in market research, strategic framework application, and team presentation',
+      'Project Attribution: Academic Group Project (Individual role: Competitor research, strategic framework & content mapping — [Details to be confirmed])'
+    ]
+  },
+  hotel:{
+    label:'Hospitality & Leadership',
+    title:'Hotel Operations & Customer Relations',
+    overview:'Hands-on leadership experience managing hotel operations, guest satisfaction, and team communication in fast-paced international hospitality settings.',
+    points:[
+      'Team Leadership & Coordination: Mentoring team members, managing front-desk operations, and ensuring high standards',
+      'Customer Relationship Excellence: Proactive communication, dispute resolution, and memorable guest experiences',
+      'Cross-Cultural Communication: Fluency in English and Chinese with professional Swedish communication',
+      'Operational Problem Solving: Handling high-occupancy coordination, VIP arrangements, and event logistics',
+      'Transferable Marketing Value: Deep understanding of customer psychology, retention, and service-driven branding'
+    ]
+  }
 };
 const dialog=document.querySelector('#case-dialog');let dialogTrigger;
 document.querySelectorAll('[data-case]').forEach(button=>button.addEventListener('click',()=>{const item=cases[button.dataset.case];if(!item)return;dialogTrigger=button;document.querySelector('#dialog-label').textContent=item.label;document.querySelector('#dialog-title').textContent=item.title;document.querySelector('#dialog-overview').textContent=item.overview;document.querySelector('#dialog-points').replaceChildren(...item.points.map(point=>{const li=document.createElement('li');li.textContent=point;return li;}));dialog.showModal();}));
@@ -30,27 +64,46 @@ dialog?.addEventListener('close',()=>dialogTrigger?.focus());
 document.addEventListener('DOMContentLoaded', () => {
   const banner = document.getElementById('cookie-banner');
   const acceptBtn = document.getElementById('accept-cookies');
-  if (!banner || !acceptBtn) return;
+  const declineBtn = document.getElementById('decline-cookies');
+  const openSettingsBtn = document.getElementById('open-cookie-settings');
+  if (!banner) return;
+
+  const storageKey = 'shihui_cookie_consent_v1';
 
   const hasConsent = () => {
     try {
-      if (localStorage.getItem('cookieConsent') === 'accepted') return true;
+      const consent = localStorage.getItem(storageKey);
+      if (consent === 'accepted' || consent === 'essential') return true;
     } catch (e) {}
-    const match = document.cookie.match(/(^| )cookieConsent=([^;]+)/);
-    return match && match[2] === 'accepted';
+    const match = document.cookie.match(new RegExp('(^| )' + storageKey + '=([^;]+)'));
+    return match && (match[2] === 'accepted' || match[2] === 'essential');
   };
 
   if (hasConsent()) {
     banner.classList.add('hidden');
+  } else {
+    banner.classList.remove('hidden');
+    banner.classList.remove('closing');
   }
 
-  acceptBtn.addEventListener('click', () => {
+  const setConsent = (type) => {
     try {
-      localStorage.setItem('cookieConsent', 'accepted');
+      localStorage.setItem(storageKey, type);
     } catch (e) {}
     const expiry = new Date();
     expiry.setFullYear(expiry.getFullYear() + 1);
-    document.cookie = `cookieConsent=accepted; expires=${expiry.toUTCString()}; path=/; SameSite=Lax`;
-    banner.classList.add('hidden');
+    document.cookie = `${storageKey}=${type}; expires=${expiry.toUTCString()}; path=/; SameSite=Lax`;
+    banner.classList.add('closing');
+    setTimeout(() => {
+      banner.classList.add('hidden');
+    }, 300);
+  };
+
+  acceptBtn?.addEventListener('click', () => setConsent('accepted'));
+  declineBtn?.addEventListener('click', () => setConsent('essential'));
+
+  openSettingsBtn?.addEventListener('click', () => {
+    banner.classList.remove('hidden');
+    banner.classList.remove('closing');
   });
 });
